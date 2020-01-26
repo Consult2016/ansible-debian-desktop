@@ -1,0 +1,22 @@
+---
+
+# Packages to install via apt.
+packages:
+ # Basik packages.
+ - https://is.gd/zMg68H
+ - audacity
+ - easytag
+ - ffmpeg
+ - gedit
+ - gimp
+ - gnome
+ - gparted
+ - inkscape
+ - kdenlive
+ - keepassx
+ - rhythmbox
+ - vlc
+
+user_skeleton:
+ - item_path: https://gitlab.com/constrict0r/home
+   item_expand: false

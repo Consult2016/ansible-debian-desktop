@@ -1,0 +1,18 @@
+---
+- name: Display Role Details.
+  debug:
+    msg:
+      - '====================================================================='
+      - 'constrict0r.desktop'
+      - 'Setup Debian desktop configuration.'
+      - '====================================================================='
+
+- name: OBS studio setup.
+  debug:
+    msg:
+      - '---------------------------------------------------------------------'
+      - 'Main - Setting up OBS studio ...'
+      - '---------------------------------------------------------------------'
+
+- name: Setup OBS studio.
+  include_tasks: obs.yml
