@@ -251,15 +251,17 @@ Usage
         vars:
           packages: [gedit, rolldice]
 
-To run tests:
+* To run tests:
 
-::
+..
 
-   cd desktop
-   chmod +x testme.sh
-   ./testme.sh
+   ::
 
-On some tests you may need to use *sudo* to succeed.
+      cd desktop
+      chmod +x testme.sh
+      ./testme.sh
+
+   On some tests you may need to use *sudo* to succeed.
 
 
 Variables
