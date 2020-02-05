@@ -44,7 +44,7 @@ Contents
    * `expand <#expand>`_
    * `group <#group>`_
    * `packages <#packages>`_
-   * `packages_npm <#packages-npm>`_
+   * `packages_js <#packages-js>`_
    * `packages_pip <#packages-pip>`_
    * `packages_purge <#packages-purge>`_
    * `password <#password>`_
@@ -89,7 +89,7 @@ This is capable of:
 
 * Install apt packages.
 
-* Install `npm <http://npmjs.org/>`_ packages.
+* Install `yarn <https://yarnpkg.com>`_ packages.
 
 * Install `pip <https://pypi.org/project/pip/>`_ packages.
 
@@ -365,12 +365,12 @@ This variable is empty by default.
        "{packages: [gedit, rolldice]}"
 
 
-packages_npm
-============
+packages_js
+===========
 
-List of packages to install via npm.
+List of packages to install via yarn.
 
-This list can be modified by passing a *packages_npm* array when
+This list can be modified by passing a *packages_js* array when
 including the role on a playbook or via *–extra-vars* from a terminal.
 
 If you want to install a specific package version, then specify *name*
@@ -382,20 +382,20 @@ This variable is empty by default.
 
    # Including from terminal.
    ansible localhost -m include_role -a name=constrict0r.desktop -K -e \
-       "{packages_npm: [node-red, {name: requests, version: 2.22.0}]}"
+       "{packages_js: [node-red, {name: requests, version: 2.22.0}]}"
 
    # Including on a playbook.
    - hosts: servers
      roles:
        - role: constrict0r.desktop
-         packages_npm:
+         packages_js:
            - node-red
            - name: requests
              version: 2.22.0
 
    # To a playbook from terminal.
    ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
-       "{packages_npm: [node-red, {name: requests, version: 2.22.0}]}"
+       "{packages_js: [node-red, {name: requests, version: 2.22.0}]}"
 
 
 packages_pip
@@ -940,7 +940,7 @@ Author
 .. image:: https://gitlab.com/constrict0r/img/raw/master/desktop/author.png
    :alt: author
 
-The travelling vaudeville villain.
+The Travelling Vaudeville Villain.
 
 Enjoy!!!
 
