@@ -1,5 +1,5 @@
 Description
-------------------------------------------------------------------------------
+--------------------------------------------------------------
 
 Ansible role to setup Debian-like systems desktop configuration.
 
@@ -37,16 +37,16 @@ By default this role applies the following configuration:
 
 - Installs the base software:
 
- .. include:: parts/packages/base.inc
+ .. include:: part/package/base.inc
 
 - Installs the desktop software:
 
- .. include:: parts/packages/desktop.inc
+ .. include:: part/package/desktop.inc
 
 - Configures the base software:
 
- .. include:: parts/configured/base.inc
+ .. include:: part/configured/base.inc
 
 - Configures the desktop software:
 
- .. include:: parts/configured/desktop.inc
+ .. include:: part/configured/desktop.inc

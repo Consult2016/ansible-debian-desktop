@@ -13,8 +13,8 @@ desktop
 
 Ansible role to setup Debian-like systems desktop configuration.
 
-.. image:: https://gitlab.com/constrict0r/img/raw/master/desktop/desktop.png
-   :alt: desktop
+.. image:: https://gitlab.com/constrict0r/img/raw/master/desktop/avatar.png
+   :alt: avatar
 
 Full documentation on `Readthedocs <https://desktop.readthedocs.io>`_.
 
@@ -24,15 +24,15 @@ Source code on:
 
 `Gitlab <https://gitlab.com/constrict0r/desktop>`_.
 
-`Part of: <https://gitlab.com/explore/projects?tag=doombots>`_
+`Part of: <https://gitlab.com/explore/projects?tag=doombot>`_
 
-.. image:: https://gitlab.com/constrict0r/img/raw/master/desktop/doombots.png
-   :alt: doombots
+.. image:: https://gitlab.com/constrict0r/img/raw/master/desktop/doombot.png
+   :alt: doombot
 
 **Ingredients**
 
-.. image:: https://gitlab.com/constrict0r/img/raw/master/desktop/ingredients.png
-   :alt: ingredients
+.. image:: https://gitlab.com/constrict0r/img/raw/master/desktop/ingredient.png
+   :alt: ingredient
 
 
 Contents
@@ -61,7 +61,7 @@ Contents
 * `Attributes <#Attributes>`_
    * `item_name <#item-name>`_
    * `item_pass <#item-pass>`_
-   * `item_groups <#item-groups>`_
+   * `item_group <#item-group>`_
    * `item_expand <#item-expand>`_
    * `item_path <#item-path>`_
 * `Requirements <#Requirements>`_
@@ -198,6 +198,7 @@ By default this role applies the following configuration:
       * Use spaces instead of tabs.
 
 
+
 Usage
 *****
 
@@ -251,17 +252,16 @@ Usage
         vars:
           packages: [gedit, rolldice]
 
-* To run tests:
+To run tests:
 
-..
+::
 
-   ::
+   cd desktop
+   chmod +x testme.sh
+   ./testme.sh
 
-      cd desktop
-      chmod +x testme.sh
-      ./testme.sh
+On some tests you may need to use *sudo* to succeed.
 
-   On some tests you may need to use *sudo* to succeed.
 
 
 Variables
@@ -282,7 +282,7 @@ especified paths and URLs.
 If set to *false* each file path or URL found on packages will be
 treated as plain text.
 
-This variable is set to *false* by default.
+This variable is set to *true* by default.
 
 ::
 
@@ -332,7 +332,7 @@ This variable is empty by default.
            - sudo
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{group: [disk, sudo]}"
 
 
@@ -361,7 +361,7 @@ This variable is empty by default.
            - rolldice
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{packages: [gedit, rolldice]}"
 
 
@@ -394,7 +394,7 @@ This variable is empty by default.
              version: 2.22.0
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{packages_js: [node-red, {name: requests, version: 2.22.0}]}"
 
 
@@ -426,7 +426,7 @@ This variable is empty by default.
            - whisper
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{packages_pip: ['bottle==0.12.17', 'whisper']}"
 
 
@@ -455,7 +455,7 @@ This variable is empty by default.
            - rolldice
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{packages_purge: [gedit, rolldice]}"
 
 
@@ -483,7 +483,7 @@ This variable defaults to 1234.
          password: 4321
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "password=4321"
 
 
@@ -515,7 +515,7 @@ This variable is empty by default.
              repo: deb http://www.debian-multimedia.org sid main
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{repositories: [{ \
             name: multimedia, \
             repo: 'deb http://www.debian-multimedia.org sid main' \
@@ -547,7 +547,7 @@ This variable is empty by default.
            - nginx
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{services: [mosquitto, nginx]}"
 
 
@@ -576,7 +576,7 @@ This variable is empty by default.
            - nginx
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{services_disable: [mosquitto, nginx]}"
 
 
@@ -599,8 +599,24 @@ This variable is empty by default.
 
    # Including from terminal.
    ansible localhost -m include_role -a name=constrict0r.desktop -K -e \
-       "{system_skeleton: [https://gitlab.com/huertico/server]}"
+       "{system_skeleton: [item_path: https://gitlab.com/huertico/server, item_expand: false]}"
 
+   # Or:
+   # Including from terminal.
+   ansible localhost -m include_role -a name=constrict0r.desktop -K -e \
+       "{system_skeleton:https://gitlab.com/huertico/server, expand: false}"
+
+   # Including on a playbook.
+   - hosts: servers
+     roles:
+       - role: constrict0r.desktop
+         system_skeleton:
+           - item_path: https://gitlab.com/huertico/server
+             item_expand: false
+           - item_path: https://gitlab.com/huertico/client
+             item_expand: false
+
+   # Or:
    # Including on a playbook.
    - hosts: servers
      roles:
@@ -608,10 +624,16 @@ This variable is empty by default.
          system_skeleton:
            - https://gitlab.com/huertico/server
            - https://gitlab.com/huertico/client
+         expand: false
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
-       "{system_skeleton: [https://gitlab.com/huertico/server]}"
+   ansible-playbook -i inventory my-playbook.yml -K -e \
+       "{system_skeleton: [item_path: https://gitlab.com/huertico/server, item_expand: false]}"
+
+   # Or:
+   # To a playbook from terminal.
+   ansible-playbook -i inventory my-playbook.yml -K -e \
+       "{system_skeleton: [https://gitlab.com/huertico/server], expand: false}"
 
 
 upgrade
@@ -637,7 +659,7 @@ This variable is set to *true* by default.
          upgrade: false
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "upgrade=false"
 
 
@@ -667,7 +689,7 @@ This variable is empty by default.
            - jhon
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
+   ansible-playbook -i inventory my-playbook.yml -K -e \
        "{users: [mary, jhon]}"
 
 
@@ -689,18 +711,38 @@ This variable is empty by default.
 
    # Including from terminal.
    ansible localhost -m include_role -a name=constrict0r.desktop -K -e \
-       "{user_skeleton: [https://gitlab.com/constrict0r/home]}"
+       "{user_skeleton: [item_path: https://gitlab.com/constrict0r/home, item_expand: false]}"
+
+   # Or:
+   # Including from terminal.
+   ansible localhost -m include_role -a name=constrict0r.desktop -K -e \
+       "{user_skeleton: [https://gitlab.com/constrict0r/home], expand: false}"
 
    # Including on a playbook.
    - hosts: servers
      roles:
        - role: constrict0r.desktop
          user_skeleton:
+           - item_path: https://gitlab.com/constrict0r/home
+             item_expand: false
+
+   # Or:
+   # Including on a playbook.
+   - hosts: servers
+     roles:
+       - role: constrict0r.desktop
+         user_skeleton:
            - https://gitlab.com/constrict0r/home
+         expand: false
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
-       "{user_skeleton: [https://gitlab.com/constrict0r/home]}"
+   ansible-playbook -i inventory my-playbook.yml -K -e \
+       "{user_skeleton: [item_path: https://gitlab.com/constrict0r/home, item_expand: false]}"
+
+   # Or:
+   # To a playbook from terminal.
+   ansible-playbook -i inventory my-playbook.yml -K -e \
+       "{user_skeleton: [https://gitlab.com/constrict0r/home], expand: false}"
 
 
 user_tasks
@@ -718,18 +760,38 @@ This variable is empty by default.
 
    # Including from terminal.
    ansible localhost -m include_role -a name=constrict0r.desktop -K -e \
-       "{user_tasks: [https://is.gd/vVCfKI]}"
+       "{user_tasks: [item_path: https://is.gd/vVCfKI, item_expand: false]}"
+
+   # Or:
+   # Including from terminal.
+   ansible localhost -m include_role -a name=constrict0r.desktop -K -e \
+       "{user_tasks: [https://is.gd/vVCfKI], expand: false}"
 
    # Including on a playbook.
    - hosts: servers
      roles:
        - role: constrict0r.desktop
          user_tasks:
+           - item_path: https://is.gd/vVCfKI
+             item_expand: false
+
+   # Or:
+   # Including on a playbook.
+   - hosts: servers
+     roles:
+       - role: constrict0r.desktop
+         user_tasks:
            - https://is.gd/vVCfKI
+         expand: false
 
    # To a playbook from terminal.
-   ansible-playbook -i tests/inventory tests/test-playbook.yml -K -e \
-       "{user_tasks: [https://is.gd/vVCfKI]}"
+   ansible-playbook -i inventory my-playbook.yml -K -e \
+       "{user_tasks: [item_path: https://is.gd/vVCfKI, item_expand: false]}"
+
+   # Or:
+   # To a playbook from terminal.
+   ansible-playbook -i inventory my-playbook.yml -K -e \
+       "{user_tasks: [https://is.gd/vVCfKI], expand: false}"
 
 
 configuration
@@ -755,6 +817,7 @@ This variable is empty by default.
 
 To see how to write  a configuration file see the *YAML* file format
 section.
+
 
 
 YAML
@@ -791,6 +854,7 @@ If the expand variable is *false*, any file path or URL found will be
 treated like plain text.
 
 
+
 Attributes
 **********
 
@@ -824,8 +888,8 @@ Password for the item to load or create.
      - item_pass: my-item-pass
 
 
-item_groups
-===========
+item_group
+==========
 
 List of groups to add users into.
 
@@ -834,7 +898,7 @@ List of groups to add users into.
    ---
    packages:
      - item_name: my-username
-       item_groups: [disk, sudo]
+       item_group: [disk, sudo]
 
 
 item_expand
@@ -865,6 +929,7 @@ Absolute file path or URL to a *.yml* file.
 This attribute also works with URLs.
 
 
+
 Requirements
 ************
 
@@ -889,6 +954,7 @@ If you want to run the tests, you will also need:
 * `Setuptools <https://pypi.org/project/setuptools/>`_.
 
 
+
 Compatibility
 *************
 
@@ -901,10 +967,12 @@ Compatibility
 * `Ubuntu Xenial <http://releases.ubuntu.com/16.04/>`_.
 
 
+
 License
 *******
 
 MIT. See the LICENSE file for more details.
+
 
 
 Links
@@ -921,6 +989,7 @@ Links
 * `Travis CI <https://travis-ci.com/constrict0r/desktop>`_.
 
 
+
 UML
 ***
 
@@ -930,8 +999,9 @@ Deployment
 
 The full project structure is shown below:
 
-.. image:: https://gitlab.com/constrict0r/img/raw/master/desktop/deployment.png
-   :alt: deployment
+.. image:: https://gitlab.com/constrict0r/img/raw/master/desktop/deploy.png
+   :alt: deploy
+
 
 
 Author
@@ -946,4 +1016,5 @@ Enjoy!!!
 
 .. image:: https://gitlab.com/constrict0r/img/raw/master/desktop/enjoy.png
    :alt: enjoy
+
 
